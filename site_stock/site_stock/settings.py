@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'store',
     'product',
     'users',
+    'captcha',
 
 ]
 
@@ -132,3 +133,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+RECAPTCHA_PUBLIC_KEY = '6LcczKYlAAAAAPrefETbuEutr7KuBd35tDTAuxsR'
+RECAPTCHA_PRIVATE_KEY = '6LcczKYlAAAAAP6qFDHaU89zw2MvNK33OtuR7WTG'
+
+
+
+CAPTCHA_IMAGE_SIZE = [200, 100]
+CAPTCHA_FONT_SIZE = 30
+
+
+LOGIN_REDIRECT_URL = 'store:base'
