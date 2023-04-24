@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'product',
     'users',
     'captcha',
+    'ckeditor',
 
 ]
 
@@ -144,4 +145,5 @@ CAPTCHA_IMAGE_SIZE = [200, 100]
 CAPTCHA_FONT_SIZE = 30
 
 
-LOGIN_REDIRECT_URL = 'store:base'
+LOGIN_REDIRECT_URL = 'store:index'
+LOGIN_URL = '/users/login/'

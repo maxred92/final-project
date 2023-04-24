@@ -6,5 +6,6 @@ from . import views
 app_name = 'product'
 
 urlpatterns = [
-    path('<int:pk>/', views.detail, name='detail'),
+    path('new/', views.add, name = 'new'),
+    path('<int:pk>/', views.detail, name ='detail'),
 ]
