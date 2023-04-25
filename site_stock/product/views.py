@@ -1,8 +1,32 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
 
-from .models import Things
+from .models import Things, Category
 from .forms import AddThingForm, EditThingForm
+
+
+def search(request):
+    things = Things.objects.filter(is_sold=False)
+    categories = Category.objects.all()
+    category_id = request.GET.get('category', 0)
+    search = request.GET.get('search', '')
+
+    if category_id:
+        things = things.filter(category_id=category_id)
+
+    if search:
+        things = things.filter(Q(name__icontains=search) | Q(description__icontains=search))
+    
+
+    context = {
+        'things' : things,
+        'categories' : categories,
+        'category_id': category_id,
+        'search': search
+
+    }
+    return render(request, 'product/browse.html', context)
 
 
 def detail(request, pk):
@@ -49,11 +73,11 @@ def edit(request, pk):
             return redirect('product:detail', pk=things.id)
     else:
         form = EditThingForm(instance=things)
-
-    return render(request, 'product/new.html', {
+    context = {
         'form': form,
-        'title': 'Edit item',
-    })
+        'title': 'Edit item',}
+    return render(request, 'product/new.html', context
+    )
 
 @login_required
 def delete(request, pk):
