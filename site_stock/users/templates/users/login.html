@@ -30,7 +30,12 @@
         {% endif %}
 
         <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
+        
     </form>
+    <br>
+        <button class="py-1 px-3 text-lg bg-gray-500 hover:bg-rose-700 rounded-xl text-white"><a href="#">Login with Instagram</a></button>
+        <button class="py-1 px-3 text-lg bg-gray-500 hover:bg-blue-700 rounded-xl text-white"><a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a></button>
+        <button class="py-1 px-3 text-lg bg-gray-500 hover:bg-teal-700 rounded-xl text-white"><a href="#">Login with LinkedIn</a></button>
 </div>
 <div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
     <h3 class="inline-block mb-2 text-2xl">Not registered yet? | <a class="px-2 py-1 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700" href="{% url 'users:signup' %}">Sign Up</a></h3>

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'users',
     'captcha',
     'ckeditor',
+    'social_django',
+    'sslserver',
 
 ]
 
@@ -156,3 +158,23 @@ EMAIL_PORT = 1024
 
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.linkedin.LinkedinOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1315270896005297'        # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'ac71de8577b3021498778dee575210a3'  # App Secret
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link'] # add this
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {       # add this
+  'fields': 'id, name, email, picture.type(large), link'
+}
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
+    ('name', 'name'),
+    ('email', 'email'),
+    ('picture', 'picture'),
+    ('link', 'profile_url'),
+]
