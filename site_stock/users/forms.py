@@ -1,8 +1,9 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.conf import settings
 from captcha.fields import CaptchaField
+from django.forms import ValidationError
 
 
 
@@ -38,3 +39,22 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
         'placeholder': 'Your password'
     }))
+
+
+class CustomPasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Enter your old password'
+    }))
+    new_password1 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Enter your new password'
+    }))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(attrs={
+        'placeholder': 'Repeat new password'
+    }))
+
+    def clean(self):
+        cleaned_data = super().clean()
+        user = self.user
+        new = cleaned_data.get('new_password1')
+        if user.check_password(new):
+            raise ValidationError('You are entering the old password')

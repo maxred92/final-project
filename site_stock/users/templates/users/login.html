@@ -32,4 +32,10 @@
         <button class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
     </form>
 </div>
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
+    <h3 class="inline-block mb-2 text-2xl">Not registered yet? | <a class="px-2 py-1 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700" href="{% url 'users:signup' %}">Sign Up</a></h3>
+    <br>
+    <h3 class="inline-block mb-2 text-2xl">Have you forgotten your password? | <a class="px-2 py-1 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700"  href="{% url 'users:pass-reset' %}">Click</a></h3>
+</div>
 {% endblock %}
+

@@ -11,7 +11,7 @@
                 <div>
                     <a href="{% url 'product:detail' thing.id %}">
                         <div>
-                            <img src="{{ thing.image.url }}" class="rounded-t-xl">
+                            <img width="400" height="400" src="{{ thing.image.url }}" class="rounded-t-xl">
                         </div>
 
                         <div class="p-6 bg-white rounded-b-xl">
@@ -28,13 +28,13 @@
     <div class="pagination">
         <span class="step-links">
             {% if posts.has_previous %}
-                <a class="mb-12 text-2xl text-center" href="?page={{ posts.previous_page_number }}">Previous</a>
+                <a class="mb-8 text-2xl text-center" href="?page={{ posts.previous_page_number }}">Previous</a>
             {% endif %}
-            <span class="mb-12 text-2xl text-center">
+            <span class="mb-8 text-2xl text-center">
                 Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
             </span>
             {% if posts.has_next %}
-                <a class="mb-12 text-2xl text-center" href="?page={{ posts.next_page_number }}">Next</a>
+                <a class="mb-8 text-2xl text-center" href="?page={{ posts.next_page_number }}">Next</a>
             {% endif %}
         </span>
     </div>
