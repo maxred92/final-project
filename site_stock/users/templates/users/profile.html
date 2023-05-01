@@ -6,7 +6,12 @@
 <div class="col-span-2 p-6 bg-gray-100 rounded-xl">
     <p class="text-gray-500"><strong>Username: </strong>{{ user.username }}</p>
     <p class="text-gray-500"><strong>First name: </strong>{{ user.first_name }}</p>
-    <p class="text-gray-500"><strong>Email: </strong>{{ user.email}}
+    <p class="text-gray-500"><strong>Email: </strong>{{ user.email}}</p>
+    <p class="text-gray-500"><strong>Phone number: </strong>{{ profile.phone_number}}</p>
+    <p class="text-gray-500"><strong>Registration date: </strong>{{ user.date_joined }}</p>
+    <div>
+    <a href="{% url 'users:edit' %}" class="px-3 py-1 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Create profile</a>
+    </div>
     <br>
     <a href="{% url 'users:password-change' %}" class="px-3 py-1 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Change password</a>
 </div>
