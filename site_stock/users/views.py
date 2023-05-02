@@ -1,18 +1,17 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, logout
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.views import PasswordChangeView
 
 from product.models import Things
 from .models import Profile
-
-
 from .forms import SignUpForm, CustomPasswordForm, UserEditForm, ProfileEditForm
 
 
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
+        profile_form = ProfileEditForm(request.POST)
 
         if form.is_valid():
             new_user = form.save(commit=False)
@@ -21,17 +20,21 @@ def signup(request):
             return redirect('/users/login/', {'profile': profile})
     else:
         form = SignUpForm()
+        profile_form = ProfileEditForm()
     
 
     return render(request, 'users/signup.html', {
-        'form': form
+        'form': form,
+        'profile_form': profile_form
     })
 
 def profile(request):
+    profile = get_object_or_404(Profile, user=request.user)
     things = Things.objects.filter(created_by=request.user)
 
     return render(request, 'users/profile.html', {
         'things': things,
+        'profile': profile
     })
 
 

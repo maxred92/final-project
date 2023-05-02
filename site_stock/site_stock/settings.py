@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'social_django',
     'sslserver',
+    'communication',
 
 ]
 

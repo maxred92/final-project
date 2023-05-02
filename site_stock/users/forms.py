@@ -88,8 +88,8 @@ class ProfileEditForm(forms.ModelForm):
             'date_of_birth': forms.DateInput(attrs={
                 'class': 'w-full py-1 px-3 rounded-xl border'
             }),
-            'phone_number': forms.NumberInput(attrs={
-                'class': 'w-full py-1 px-3 rounded-xl border'
+            'phone_number': forms.TextInput(attrs={
+                
             }),
             'photo': forms.FileInput(attrs={
                 'class': 'w-full py-1 px-3 rounded-xl border'
