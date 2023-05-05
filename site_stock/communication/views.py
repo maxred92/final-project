@@ -2,13 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from product.models import Things
+from users.models import Profile
 
 from .forms import MessageForm
 from .models import Communication
+from .tasks import replace_text_with_censored
+
 
 @login_required
 def new_communication(request, things_pk):
     things = get_object_or_404(Things, pk=things_pk)
+    profile = get_object_or_404(Profile, user=request.user)
 
     if things.created_by == request.user:
         return redirect('users:profile')
@@ -31,6 +35,7 @@ def new_communication(request, things_pk):
             communication_message.communication = communication
             communication_message.created_by = request.user
             communication_message.save()
+            replace_text_with_censored.delay(communication_message.id)
 
             return redirect('product:detail', pk=things_pk)
 
@@ -38,7 +43,9 @@ def new_communication(request, things_pk):
         form = MessageForm()
 
     return render(request, 'communication/new.html', {
-        'form': form
+        'form': form,
+        'things': things,
+        'profile': profile
     })
 
 @login_required
@@ -53,8 +60,8 @@ def detail(request, pk):
             communication_message.communication = communication
             communication_message.created_by = request.user
             communication_message.save()
-
             communication.save()
+            replace_text_with_censored.delay(communication_message.id)
 
             return redirect('communication:detail', pk=pk)
     else:

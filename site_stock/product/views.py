@@ -35,7 +35,7 @@ def detail(request, pk):
     related_things = Things.objects.filter(category=things.category, is_sold=False).exclude(pk=pk)[0:3]
     context = {
         'things' : things,
-        'related_things' : related_things,
+        'related_things' : related_things
     }
 
     return render(request, 'product/detail.html', context)

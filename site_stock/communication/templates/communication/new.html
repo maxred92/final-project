@@ -5,6 +5,10 @@
 
 {% block content %}
 <h1 class="mb-6 text-3xl">New communication</h1>
+<div class="col-span-2 p-6 bg-gray-100 rounded-xl">
+    <p class="text-gray-500">
+        <strong>{{ things.created_by.first_name }} phone number: </strong>{{ profile.phone_number }}</p>
+</div>
 
 <form method="post" action=".">
     {% csrf_token %}
