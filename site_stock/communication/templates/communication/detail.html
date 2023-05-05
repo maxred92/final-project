@@ -11,8 +11,16 @@
             <div>
                 <p class="mb-4"><strong>{{ message.created_by.username }}</strong> @ {{ message.created_at }}</p>
                 <p>{{ message.content }}</p>
+                <div>
+                    {% if user == message.created_by %}
+                    <button class="py-1 px-3 text-lg bg-yellow-500 hover:bg-yellow-700 rounded-xl text-white"><a href="{% url 'communication:edit' message.id %}">Update</a></button> 
+                    <button class="py-1 px-3 text-lg bg-red-500 hover:bg-red-700 rounded-xl text-white"><a href="{% url 'communication:delete' message.id %}">Delete</a></button>
+                    
+                    {% endif %}      
             </div>
-        </div>
+            </div>
+            </div>
+
     {% endfor %}
 </div>
 

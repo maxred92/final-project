@@ -5,7 +5,7 @@ from product.models import Things
 from users.models import Profile
 
 from .forms import MessageForm
-from .models import Communication
+from .models import Communication, Message
 from .tasks import replace_text_with_censored
 
 
@@ -71,6 +71,35 @@ def detail(request, pk):
         'communication': communication,
         'form': form
     })    
+
+@login_required
+def edit(request, pk):
+    content = get_object_or_404(Message, pk=pk, created_by=request.user)
+    
+    if request.method == 'POST':
+        form = MessageForm(request.POST, request.FILES, instance=content)
+
+        if form.is_valid():
+            content = form.save(commit=False)
+            content.created_by = request.user
+            content.save()
+            replace_text_with_censored.delay(content.id)
+            return redirect('communication:inbox')
+    else:
+        form = MessageForm(instance=content)
+    context = {
+        'form': form,
+        'title': 'Edit message',}
+    return render(request, 'communication/edit.html', context
+    )
+
+@login_required
+def delete(request, pk):
+    content = get_object_or_404(Message, pk=pk, created_by=request.user)
+    content.delete()
+
+    return redirect('communication:inbox')
+
 
 @login_required
 def inbox(request):
