@@ -1,0 +1,11 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Feedback{% endblock %}
+
+{% block content %}
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
+    <h1 class="mb-6 text-3xl">Thank You!</h1>
+    <p>Your feedback has been recorded.</p>
+    <p>If you have more to say, you can <a href="{% url 'store:feedback' %}" class="text-lg text-teal-500 hover:text-teal-700">submit another feedback</a> response.</p>
+</div>
+{% endblock content %}

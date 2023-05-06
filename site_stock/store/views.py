@@ -1,5 +1,10 @@
 from django.shortcuts import render, redirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.views.generic.base import TemplateView
+from django.views.generic.edit import FormView
+
+from .forms import FeedbackForm
+
 from product.models import Category, Things
 
 def index(request):
@@ -24,5 +29,19 @@ def index(request):
     }
     return render(request, 'store/index.html', context)
 
+
 def contact(request):
     return render(request, 'store/contact.html')
+
+class FeedbackFormView(FormView):
+    template_name = 'store/feedback.html'
+    form_class = FeedbackForm
+    success_url = '/success/'
+
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
+
+
+class SuccessView(TemplateView):
+    template_name = 'store/success.html'
