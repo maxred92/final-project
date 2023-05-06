@@ -9,9 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
 from pathlib import Path
-import os
+from celery.schedules import crontab
+import os 
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,6 +47,8 @@ INSTALLED_APPS = [
     'social_django',
     'sslserver',
     'communication',
+    'django_celery_beat',
+
 
 ]
 
@@ -182,3 +185,13 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [                 # add this
 
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+
+#schedule example mailing every week
+CELERY_BEAT_SCHEDULE = {
+    'weekly_newsletter': {
+        'task': 'site_stock.product.tasks.weekly_newsletter',
+        'schedule': crontab(minute=0, hour=9, day_of_week='1'),
+    },
+}
