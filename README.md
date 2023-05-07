@@ -43,9 +43,9 @@ Use the `README.md` to get started.
 
 ### Built With
 
-* [![Python][python.py]][python-url]
-* [![Html][Html.html]][Html-url]
-* [![Django][Django.py]][Django-url]
+* [Python][python.py][python-url]
+* [Html][Html.html][Html-url]
+* [Django][Django.py][Django-url]
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
