@@ -43,9 +43,9 @@ Use the `README.md` to get started.
 
 ### Built With
 
-* [Python][python.py][python-url]
-* [Html][Html.html][Html-url]
-* [Django][Django.py][Django-url]
+* Python
+* Html
+* Django
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -106,6 +106,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
 
 My email - maxred92@mail.ru
+<br>
 [LinkedIn](https://www.linkedin.com/in/maksimvolkau/)
 
 Project Link: [https://github.com/maxred92/final-project](https://github.com/maxred92/final-project)
