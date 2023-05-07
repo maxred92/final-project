@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect, render
 
 from product.models import Things
 from users.models import Profile
@@ -15,16 +15,18 @@ def new_communication(request, things_pk):
     profile = get_object_or_404(Profile, user=request.user)
 
     if things.created_by == request.user:
-        return redirect('users:profile')
-    
-    communication = Communication.objects.filter(things=things).filter(members__in=[request.user.id])
+        return redirect("users:profile")
+
+    communication = Communication.objects.filter(things=things).filter(
+        members__in=[request.user.id]
+    )
 
     if communication:
         pass
-    
-    if request.method == 'POST':
+
+    if request.method == "POST":
         form = MessageForm(request.POST)
-        
+
         if form.is_valid():
             communication = Communication.objects.create(things=things)
             communication.members.add(request.user)
@@ -37,22 +39,25 @@ def new_communication(request, things_pk):
             communication_message.save()
             replace_text_with_censored.delay(communication_message.id)
 
-            return redirect('product:detail', pk=things_pk)
+            return redirect("product:detail", pk=things_pk)
 
     else:
         form = MessageForm()
 
-    return render(request, 'communication/new.html', {
-        'form': form,
-        'things': things,
-        'profile': profile
-    })
+    return render(
+        request,
+        "communication/new.html",
+        {"form": form, "things": things, "profile": profile},
+    )
+
 
 @login_required
 def detail(request, pk):
-    communication = Communication.objects.filter(members__in=[request.user.id]).get(pk=pk)
+    communication = Communication.objects.filter(members__in=[request.user.id]).get(
+        pk=pk
+    )
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = MessageForm(request.POST)
 
         if form.is_valid():
@@ -63,20 +68,22 @@ def detail(request, pk):
             communication.save()
             replace_text_with_censored.delay(communication_message.id)
 
-            return redirect('communication:detail', pk=pk)
+            return redirect("communication:detail", pk=pk)
     else:
         form = MessageForm()
 
-    return render(request, 'communication/detail.html', {
-        'communication': communication,
-        'form': form
-    })    
+    return render(
+        request,
+        "communication/detail.html",
+        {"communication": communication, "form": form},
+    )
+
 
 @login_required
 def edit(request, pk):
     content = get_object_or_404(Message, pk=pk, created_by=request.user)
-    
-    if request.method == 'POST':
+
+    if request.method == "POST":
         form = MessageForm(request.POST, request.FILES, instance=content)
 
         if form.is_valid():
@@ -84,27 +91,28 @@ def edit(request, pk):
             content.created_by = request.user
             content.save()
             replace_text_with_censored.delay(content.id)
-            return redirect('communication:inbox')
+            return redirect("communication:inbox")
     else:
         form = MessageForm(instance=content)
     context = {
-        'form': form,
-        'title': 'Edit message',}
-    return render(request, 'communication/edit.html', context
-    )
+        "form": form,
+        "title": "Edit message",
+    }
+    return render(request, "communication/edit.html", context)
+
 
 @login_required
 def delete(request, pk):
     content = get_object_or_404(Message, pk=pk, created_by=request.user)
     content.delete()
 
-    return redirect('communication:inbox')
+    return redirect("communication:inbox")
 
 
 @login_required
 def inbox(request):
     communications = Communication.objects.filter(members__in=[request.user.id])
 
-    return render(request, 'communication/inbox.html', {
-        'communications': communications
-    })
+    return render(
+        request, "communication/inbox.html", {"communications": communications}
+    )
