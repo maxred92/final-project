@@ -8,6 +8,8 @@ from django.forms import ValidationError
 
 from .models import Profile
 
+""" Creating a registration form """
+
 
 class SignUpForm(UserCreationForm):
     class Meta:
@@ -42,6 +44,9 @@ class LoginUserForm(AuthenticationForm):
     )
 
 
+""" Creating a password change form """
+
+
 class CustomPasswordForm(PasswordChangeForm):
     old_password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Enter your old password"})
@@ -59,6 +64,9 @@ class CustomPasswordForm(PasswordChangeForm):
         new = cleaned_data.get("new_password1")
         if user.check_password(new):
             raise ValidationError("You are entering the old password")
+
+
+""" Creating a form for editing a profile on the site """
 
 
 class UserEditForm(forms.ModelForm):

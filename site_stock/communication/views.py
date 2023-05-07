@@ -8,6 +8,8 @@ from .forms import MessageForm
 from .models import Communication, Message
 from .tasks import replace_text_with_censored
 
+""" Create and start a conversation with a seller/buyer """
+
 
 @login_required
 def new_communication(request, things_pk):
@@ -51,6 +53,9 @@ def new_communication(request, things_pk):
     )
 
 
+""" Sending messages in a created conversation """
+
+
 @login_required
 def detail(request, pk):
     communication = Communication.objects.filter(members__in=[request.user.id]).get(
@@ -79,6 +84,9 @@ def detail(request, pk):
     )
 
 
+""" Editing a comment """
+
+
 @login_required
 def edit(request, pk):
     content = get_object_or_404(Message, pk=pk, created_by=request.user)
@@ -101,12 +109,18 @@ def edit(request, pk):
     return render(request, "communication/edit.html", context)
 
 
+""" Deleting a comment """
+
+
 @login_required
 def delete(request, pk):
     content = get_object_or_404(Message, pk=pk, created_by=request.user)
     content.delete()
 
     return redirect("communication:inbox")
+
+
+""" All user comments """
 
 
 @login_required

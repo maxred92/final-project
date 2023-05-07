@@ -7,6 +7,8 @@ from product.models import Category, Things
 
 from .forms import FeedbackForm
 
+""" Displaying all products and connecting pagination """
+
 
 def index(request):
     things = Things.objects.filter(is_sold=False)
@@ -16,10 +18,10 @@ def index(request):
     try:
         posts = paginator.page(page)
     except PageNotAnInteger:
-        # if page is not an integer deliver the first page
+        # If page is not an integer deliver the first page
         posts = paginator.page(1)
     except EmptyPage:
-        # if page is out of range deliver last page of results
+        # If page is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
 
     context = {
@@ -33,6 +35,9 @@ def index(request):
 
 def contact(request):
     return render(request, "store/contact.html")
+
+
+""" Implementation of sending feedback """
 
 
 class FeedbackFormView(FormView):

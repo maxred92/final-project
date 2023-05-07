@@ -1,10 +1,11 @@
 from better_profanity import profanity
 from celery import shared_task
-from django.core import serializers
 
 from .models import Message
 
 profanity.load_censor_words()
+
+""" Task for mute bad words """
 
 
 @shared_task()

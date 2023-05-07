@@ -139,7 +139,7 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
+# Installing recaptcha from sign in form
 RECAPTCHA_PUBLIC_KEY = "6LcczKYlAAAAAPrefETbuEutr7KuBd35tDTAuxsR"
 RECAPTCHA_PRIVATE_KEY = "6LcczKYlAAAAAP6qFDHaU89zw2MvNK33OtuR7WTG"
 
@@ -151,7 +151,7 @@ CAPTCHA_FONT_SIZE = 30
 LOGIN_REDIRECT_URL = "store:index"
 LOGIN_URL = "/users/login/"
 
-
+# Creating a window for receiving e-mail
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 EMAIL_HOST = "localhost"
 EMAIL_PORT = 1024
@@ -159,6 +159,7 @@ EMAIL_PORT = 1024
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
 
+# User registration through social networks
 AUTHENTICATION_BACKENDS = [
     "social_core.backends.linkedin.LinkedinOAuth2",
     "social.backends.twitter.TwitterOAuth",
@@ -178,13 +179,14 @@ SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [  # add this
     ("picture", "picture"),
     ("link", "profile_url"),
 ]
-
+# Installing and connecting to the Celery and Redis app
 CELERY_BROKER_URL = "redis://localhost:6379"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 
+# Installing and connecting to Celery bit application
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 
-# schedule example mailing every week
+# Schedule example mailing every week
 CELERY_BEAT_SCHEDULE = {
     "weekly_newsletter": {
         "task": "site_stock.product.tasks.weekly_newsletter",

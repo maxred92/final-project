@@ -3,9 +3,11 @@ from datetime import datetime, timedelta
 from celery import shared_task
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse
 
 from .models import Things
+
+""" Sending messages to users about the latest products of the week """
 
 
 @shared_task()

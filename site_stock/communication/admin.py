@@ -2,12 +2,17 @@ from django.contrib import admin
 
 from .models import Communication, Message
 
+""" Updated admin panel model Communication """
+
 
 @admin.register(Communication)
 class CommunicationAdmin(admin.ModelAdmin):
     list_display = ("things", "created_at")
     list_filter = ("created_at", "modified_at")
     search_fields = ("things", "members")
+
+
+""" Updated admin panel model Message """
 
 
 @admin.register(Message)

@@ -2,6 +2,8 @@ from django import forms
 
 from store.tasks import send_feedback_email_task
 
+""" Create a feedback form """
+
 
 class FeedbackForm(forms.Form):
     email = forms.EmailField(

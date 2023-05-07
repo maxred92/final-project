@@ -1,7 +1,9 @@
 from django.db.models import signals
 from django.dispatch import receiver
 
-from product.models import Category, Things
+from product.models import Things
+
+""" Implementing the item counter in the category """
 
 
 @receiver(signals.post_save, sender=Things)

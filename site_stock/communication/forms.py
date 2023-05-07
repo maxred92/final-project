@@ -2,6 +2,8 @@ from django import forms
 
 from .models import Message
 
+""" Creating a comment form """
+
 
 class MessageForm(forms.ModelForm):
     class Meta:

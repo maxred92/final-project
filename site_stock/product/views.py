@@ -2,10 +2,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from users.models import Profile
-
 from .forms import AddThingForm, EditThingForm
 from .models import Category, Things
+
+""" Product search view and sorting by category """
 
 
 def search(request):
@@ -41,6 +41,9 @@ def detail(request, pk):
     return render(request, "product/detail.html", context)
 
 
+""" Presentation of the product page and similar products """
+
+
 @login_required
 def add(request):
     if request.method == "POST":
@@ -57,6 +60,9 @@ def add(request):
     context = {"form": form, "title": "New Thing"}
 
     return render(request, "product/new.html", context)
+
+
+""" Product editing """
 
 
 @login_required
@@ -77,6 +83,9 @@ def edit(request, pk):
         "title": "Edit item",
     }
     return render(request, "product/new.html", context)
+
+
+""" Deleting a product on the site """
 
 
 @login_required

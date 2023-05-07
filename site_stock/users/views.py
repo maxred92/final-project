@@ -1,13 +1,15 @@
-from django.contrib.auth import login, logout
+from django.contrib.auth import logout
 from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import get_object_or_404, redirect, render
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 
 from product.models import Things
 
 from .forms import (CustomPasswordForm, ProfileEditForm, SignUpForm,
                     UserEditForm)
 from .models import Profile
+
+""" View for registering a user and creating a profile on the site """
 
 
 def signup(request):
@@ -29,11 +31,17 @@ def signup(request):
     )
 
 
+""" Presentation of the profile and its products """
+
+
 def profile(request):
     profile = get_object_or_404(Profile, user=request.user)
     things = Things.objects.filter(created_by=request.user)
 
     return render(request, "users/profile.html", {"things": things, "profile": profile})
+
+
+""" Change password view """
 
 
 class CustomPasswordChange(PasswordChangeView):
@@ -46,6 +54,9 @@ class CustomPasswordChange(PasswordChangeView):
         self.request.session.flush()
         logout(self.request)
         return super().form_valid(form)
+
+
+""" Profile edit view """
 
 
 def edit(request):

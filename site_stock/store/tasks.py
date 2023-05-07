@@ -3,6 +3,8 @@ from time import sleep
 from celery import shared_task
 from django.core.mail import send_mail
 
+""" Running a task to send an email to the user who left the review """
+
 
 @shared_task()
 def send_feedback_email_task(email_address, message):

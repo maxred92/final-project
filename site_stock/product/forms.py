@@ -2,6 +2,8 @@ from django import forms
 
 from .models import Things
 
+""" Create forms to add and edit things """
+
 
 class AddThingForm(forms.ModelForm):
     class Meta:
