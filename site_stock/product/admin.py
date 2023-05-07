@@ -18,21 +18,18 @@ class ThingsAdmin(admin.ModelAdmin):
     list_display = ("name", "created_at", "full_price")
 
 
-""" Custom price field with $ sign """
 
-
-@admin.display(description="price")
-def full_price(self, obj):
-    return f"{obj.price} $"
+# Custom price field with $ sign
+    @admin.display(description="price") 
+    def full_price(self, obj):
+        return f"{obj.price} $"
 
 
 class ThingsInCategory(admin.StackedInline):
     model = Things
 
 
-""" Updated admin panel model Category """
-
-
+# Updated admin panel model Category
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("name", "show_average")
@@ -49,10 +46,8 @@ class CategoryAdmin(admin.ModelAdmin):
         return format_html('<a href="{}">{} Things</a>', url, count)
 
 
-""" Creating a field displaying the average price of a product in a category """
-
-
-@admin.display(description="avg_price")
-def show_average(self, obj):
-    result = Things.objects.filter(category=obj).aggregate(Avg("price"))
-    return result["price__avg"]
+# Creating a field displaying the average price of a product in a category
+    @admin.display(description="avg_price")
+    def show_average(self, obj):
+        result = Things.objects.filter(category=obj).aggregate(Avg("price"))
+        return result["price__avg"]
