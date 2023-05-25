@@ -7,10 +7,9 @@ from product.models import Category, Things
 
 from .forms import FeedbackForm
 
-""" Displaying all products and connecting pagination """
-
-
 def index(request):
+    """ Function that displays the main page of the site """
+
     things = Things.objects.filter(is_sold=False)
     categories = Category.objects.all()
     paginator = Paginator(things, 3)
@@ -23,7 +22,6 @@ def index(request):
     except EmptyPage:
         # If page is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
-
     context = {
         "categories": categories,
         "things": things,
@@ -36,11 +34,9 @@ def index(request):
 def contact(request):
     return render(request, "store/contact.html")
 
-
-""" Implementation of sending feedback """
-
-
 class FeedbackFormView(FormView):
+    """ The class that displays the page for sending feedback """
+
     template_name = "store/feedback.html"
     form_class = FeedbackForm
     success_url = "/success/"
@@ -48,7 +44,6 @@ class FeedbackFormView(FormView):
     def form_valid(self, form):
         form.send_email()
         return super().form_valid(form)
-
 
 class SuccessView(TemplateView):
     template_name = "store/success.html"

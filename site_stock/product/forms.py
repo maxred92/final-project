@@ -2,10 +2,9 @@ from django import forms
 
 from .models import Things
 
-""" Create forms to add and edit things """
-
-
 class AddThingForm(forms.ModelForm):
+    """ Class for adding a product to the site """
+    
     class Meta:
         model = Things
         fields = (
@@ -35,6 +34,8 @@ class AddThingForm(forms.ModelForm):
 
 
 class EditThingForm(forms.ModelForm):
+    """ Class for editing a product on the site """
+
     class Meta:
         model = Things
         fields = ("category", "name", "description", "price", "image", "is_sold")

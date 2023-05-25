@@ -2,10 +2,9 @@ from django import forms
 
 from store.tasks import send_feedback_email_task
 
-""" Create a feedback form """
-
-
 class FeedbackForm(forms.Form):
+    """ Class for creating a feedback form """
+    
     email = forms.EmailField(
         label="Email Address",
         widget=forms.EmailInput(attrs={"placeholder": "Your email address"}),
@@ -16,6 +15,8 @@ class FeedbackForm(forms.Form):
     )
 
     def send_email(self):
+        """ Function to send a message to the user about receiving feedback """
+        
         send_feedback_email_task.delay(
             self.cleaned_data["email"], self.cleaned_data["message"]
         )

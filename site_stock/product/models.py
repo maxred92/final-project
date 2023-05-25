@@ -3,6 +3,8 @@ from django.db import models
 
 
 class Category(models.Model):
+    """ Class for creating a category model """
+    
     name = models.CharField(max_length=255)
     things_number = models.IntegerField(default=0, verbose_name="Things number")
 
@@ -15,6 +17,8 @@ class Category(models.Model):
 
 
 class Things(models.Model):
+    """ Class for creating a model of Things """
+    
     category = models.ForeignKey(
         Category, related_name="items", on_delete=models.CASCADE
     )

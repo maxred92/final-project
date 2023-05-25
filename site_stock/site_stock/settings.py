@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "sslserver",
     "communication",
     "django_celery_beat",
+    "phonenumber_field",
 ]
 
 MIDDLEWARE = [

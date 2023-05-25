@@ -7,11 +7,10 @@ from django.urls import reverse
 
 from .models import Things
 
-""" Sending messages to users about the latest products of the week """
-
-
 @shared_task()
 def send_news_email_task(things_of_last_week, user: dict):
+    """ A function that generates the text of the mailing message with new products """
+    
     message_text = f'Hello, {user["first_name"]}! See all our offers from last week!\n'
     for things in things_of_last_week:
         msg_chunk = f"""New things:\n {things['name']}, Release date: {things['created_at']}, Price: {things['price']}
@@ -29,10 +28,12 @@ def send_news_email_task(things_of_last_week, user: dict):
 
 @shared_task()
 def weekly_newsletter():
+    """ A function to send messages about new products to all registered users """
+    
     all_users = list(User.objects.filter(is_staff=False).values())
     all_things_of_last_week = list(
         Things.objects.filter(
-            created_at__gte=datetime.today() - timedelta(days=7)
+            created_at__gte=datetime.today() - timedelta(days=3)
         ).values()
     )
     for user in all_users:

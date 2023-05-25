@@ -1,17 +1,21 @@
+from phonenumber_field.formfields import PhoneNumberField
+from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from captcha.fields import CaptchaField
 from django import forms
 from django.conf import settings
-from django.contrib.auth.forms import (AuthenticationForm, PasswordChangeForm,
-                                       UserCreationForm)
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordChangeForm,
+    UserCreationForm,
+)
 from django.contrib.auth.models import User
 from django.forms import ValidationError
 
 from .models import Profile
 
-""" Creating a registration form """
-
-
 class SignUpForm(UserCreationForm):
+    """ Class for creating a user registration form """
+    
     class Meta:
         model = User
         fields = ("username", "first_name", "email", "password1", "password2")
@@ -36,6 +40,8 @@ class SignUpForm(UserCreationForm):
 
 
 class LoginUserForm(AuthenticationForm):
+    """ Class for creating a user login form """
+    
     username = forms.CharField(
         widget=forms.TextInput(attrs={"placeholder": "Your username"})
     )
@@ -43,11 +49,9 @@ class LoginUserForm(AuthenticationForm):
         widget=forms.PasswordInput(attrs={"placeholder": "Your password"})
     )
 
-
-""" Creating a password change form """
-
-
 class CustomPasswordForm(PasswordChangeForm):
+    """ Class for creating a custom password change form """
+    
     old_password = forms.CharField(
         widget=forms.PasswordInput(attrs={"placeholder": "Enter your old password"})
     )
@@ -59,6 +63,8 @@ class CustomPasswordForm(PasswordChangeForm):
     )
 
     def clean(self):
+        """ Function that prevents changing the password if it is identical to the old password """
+        
         cleaned_data = super().clean()
         user = self.user
         new = cleaned_data.get("new_password1")
@@ -66,14 +72,12 @@ class CustomPasswordForm(PasswordChangeForm):
             raise ValidationError("You are entering the old password")
 
 
-""" Creating a form for editing a profile on the site """
-
-
 class UserEditForm(forms.ModelForm):
+    """ Class for creating a form for editing profile information """
+    
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email")
-
         widgets = {
             "first_name": forms.TextInput(
                 attrs={"class": "w-full py-1 px-3 rounded-xl border"}
@@ -90,13 +94,14 @@ class UserEditForm(forms.ModelForm):
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ("date_of_birth", "phone_number", "photo")
-
+        fields = ("phone_number", "date_of_birth", "photo")
+        phone_number = PhoneNumberField(widget=PhoneNumberPrefixWidget(
+            attrs={"class": "w-full py-1 px-3 rounded-xl border"}, country_choices=[])
+        )
         widgets = {
             "date_of_birth": forms.DateInput(
                 attrs={"class": "w-full py-1 px-3 rounded-xl border"}
             ),
-            "phone_number": forms.TextInput(attrs={}),
             "photo": forms.FileInput(
                 attrs={"class": "w-full py-1 px-3 rounded-xl border"}
             ),

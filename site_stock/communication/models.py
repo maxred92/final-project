@@ -5,6 +5,8 @@ from product.models import Things
 
 
 class Communication(models.Model):
+    """ Class for creating a model for starting communication with a user """
+    
     things = models.ForeignKey(
         Things, related_name="communication", on_delete=models.CASCADE
     )
@@ -20,6 +22,8 @@ class Communication(models.Model):
 
 
 class Message(models.Model):
+    """ Class for creating a model for sending a message to the user """
+
     communication = models.ForeignKey(
         Communication, related_name="messages", on_delete=models.CASCADE
     )

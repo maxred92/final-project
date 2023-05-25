@@ -8,27 +8,19 @@ from .forms import MessageForm
 from .models import Communication, Message
 from .tasks import replace_text_with_censored
 
-""" Create and start a conversation with a seller/buyer """
-
 
 @login_required
 def new_communication(request, things_pk):
+    """ Function to create a new conversation with the user and send the first message """
     things = get_object_or_404(Things, pk=things_pk)
     profile = get_object_or_404(Profile, user=request.user)
-
     if things.created_by == request.user:
         return redirect("users:profile")
-
     communication = Communication.objects.filter(things=things).filter(
         members__in=[request.user.id]
     )
-
-    if communication:
-        pass
-
     if request.method == "POST":
         form = MessageForm(request.POST)
-
         if form.is_valid():
             communication = Communication.objects.create(things=things)
             communication.members.add(request.user)
@@ -40,31 +32,23 @@ def new_communication(request, things_pk):
             communication_message.created_by = request.user
             communication_message.save()
             replace_text_with_censored.delay(communication_message.id)
-
             return redirect("product:detail", pk=things_pk)
-
     else:
         form = MessageForm()
-
     return render(
         request,
         "communication/new.html",
         {"form": form, "things": things, "profile": profile},
     )
 
-
-""" Sending messages in a created conversation """
-
-
 @login_required
 def detail(request, pk):
+    """ Function to send a message to the user """
     communication = Communication.objects.filter(members__in=[request.user.id]).get(
         pk=pk
     )
-
     if request.method == "POST":
         form = MessageForm(request.POST)
-
         if form.is_valid():
             communication_message = form.save(commit=False)
             communication_message.communication = communication
@@ -72,28 +56,22 @@ def detail(request, pk):
             communication_message.save()
             communication.save()
             replace_text_with_censored.delay(communication_message.id)
-
             return redirect("communication:detail", pk=pk)
     else:
         form = MessageForm()
-
     return render(
         request,
         "communication/detail.html",
         {"communication": communication, "form": form},
     )
 
-
-""" Editing a comment """
-
-
 @login_required
 def edit(request, pk):
+    """ Function that edits the user's post """
     content = get_object_or_404(Message, pk=pk, created_by=request.user)
 
     if request.method == "POST":
         form = MessageForm(request.POST, request.FILES, instance=content)
-
         if form.is_valid():
             content = form.save(commit=False)
             content.created_by = request.user
@@ -108,23 +86,17 @@ def edit(request, pk):
     }
     return render(request, "communication/edit.html", context)
 
-
-""" Deleting a comment """
-
-
 @login_required
 def delete(request, pk):
+    """ Function to be able to delete your own comment """
     content = get_object_or_404(Message, pk=pk, created_by=request.user)
     content.delete()
 
     return redirect("communication:inbox")
 
-
-""" All user comments """
-
-
 @login_required
 def inbox(request):
+    """ Function to go to the page where there are all conversations in which there is a user """
     communications = Communication.objects.filter(members__in=[request.user.id])
 
     return render(
